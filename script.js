@@ -52,3 +52,25 @@ function escapeHtml(s = '') {
 }
 
 document.addEventListener('DOMContentLoaded', loadPredictions);
+// --- Fetch matches from Football-Data.org ---
+async function getMatches() {
+    const apiUrl = "https://api.football-data.org/v4/matches"; 
+    const apiKey = ""; // Will be injected later via GitHub Actions
+
+    try {
+        const response = await fetch(apiUrl, {
+            headers: { "X-Auth-Token": apiKey }
+        });
+        const data = await response.json();
+        console.log(data); // For testing
+        const matchesEl = document.getElementById("matches");
+        if (matchesEl) {
+            matchesEl.innerText = JSON.stringify(data, null, 2);
+        }
+    } catch (error) {
+        console.error("Error fetching matches:", error);
+    }
+}
+
+// Call the function
+getMatches();
