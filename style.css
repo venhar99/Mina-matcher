@@ -1,0 +1,108 @@
+/* Basic, mobile-first styling for Football Predictions site */
+:root{
+  --max-width:900px;
+  --gap:12px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: #111;
+}
+
+body{
+  margin:0;
+  padding:16px;
+  display:flex;
+  justify-content:center;
+  background:#f7f8fb;
+}
+
+.container{
+  width:100%;
+  max-width:var(--max-width);
+  background:white;
+  border-radius:10px;
+  box-shadow:0 6px 18px rgba(18,18,18,0.06);
+  padding:18px;
+  box-sizing:border-box;
+}
+
+header h1{
+  margin:0 0 6px 0;
+  font-size:1.4rem;
+}
+
+#last-updated{
+  margin:0;
+  color:#666;
+  font-size:0.9rem;
+}
+
+#predictions{
+  margin-top:16px;
+  display:grid;
+  gap:var(--gap);
+}
+
+.match{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #eef1f6;
+  background:linear-gradient(180deg,#fff,#fbfcff);
+}
+
+.match .teams{
+  display:flex;
+  gap:12px;
+  flex-direction:column;
+}
+
+.team-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.team-name{
+  font-weight:600;
+}
+
+.score{
+  font-size:0.95rem;
+  color:#444;
+}
+
+.prediction{
+  text-align:right;
+  min-width:130px;
+}
+
+.prediction .pick{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:20px;
+  background:#eef7ff;
+  color:#0b62c7;
+  font-weight:700;
+}
+
+.small{
+  font-size:0.85rem;
+  color:#666;
+  margin-top:6px;
+}
+
+footer{
+  margin-top:18px;
+  font-size:0.85rem;
+  color:#777;
+}
+
+@media (min-width:600px){
+  .match{
+    padding:14px;
+  }
+  .team-row{
+    flex-direction:row;
+  }
+}
