@@ -1,0 +1,29 @@
+{
+  "generated_at": "2025-08-09T12:00:00Z",
+  "matches": [
+    {
+      "home": "Manchester United",
+      "away": "Chelsea",
+      "league": "English Premier League",
+      "kickoff": "2025-08-12 17:30",
+      "prediction": "Manchester United win",
+      "confidence": 75
+    },
+    {
+      "home": "Barcelona",
+      "away": "Real Madrid",
+      "league": "La Liga",
+      "kickoff": "2025-08-14 20:00",
+      "prediction": "Draw",
+      "confidence": 60
+    },
+    {
+      "home": "Bayern Munich",
+      "away": "Borussia Dortmund",
+      "league": "Bundesliga",
+      "kickoff": "2025-08-15 19:00",
+      "prediction": "Bayern Munich win",
+      "confidence": 80
+    }
+  ]
+}
