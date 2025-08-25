@@ -1,0 +1,37 @@
+name: Fetch Matches
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  update-matches:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch matches from API
+        run: |
+          mkdir -p data
+          curl -s -H "X-Auth-Token: ${{ secrets.FOOTBALL_DATA_API_KEY }}" \
+            "https://api.football-data.org/v4/matches" > data/matches.json
+          echo "Fetched matches successfully!"
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- data/matches.json; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git add data/matches.json
+          git commit -m "Update matches data"
+          git push
