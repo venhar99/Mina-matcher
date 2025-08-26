@@ -1,7 +1,9 @@
 name: Fetch Matches
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:      # manual run
+  schedule:
+    - cron: "0 8 * * *"   # optional: runs daily at 08:00 UTC
   push:
     branches:
       - main
@@ -16,6 +18,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Show git info (debug)
+        run: |
+          echo "Current branch:"
+          git branch --show-current || true
+          git status --porcelain || true
 
       - name: Fetch matches from API
         run: |
@@ -23,15 +34,31 @@ jobs:
           curl -s -H "X-Auth-Token: ${{ secrets.FOOTBALL_DATA_API_KEY }}" \
             "https://api.football-data.org/v4/matches" > data/matches.json
           echo "Fetched matches successfully!"
+          echo "data/matches.json size and head:"
+          ls -l data/matches.json || true
+          head -n 20 data/matches.json || true
+
+          # also update predictions.json (your site reads this file)
+          cp data/matches.json predictions.json || true
+          echo "Copied to predictions.json (for site display)."
 
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -e
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- data/matches.json; then
+
+          # Stage the files we want to save in the repo
+          git add data/matches.json predictions.json
+
+          # If nothing changed, do nothing
+          if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
-          git add data/matches.json
-          git commit -m "Update matches data"
-          git push
+
+          git commit -m "Update matches and predictions (auto)"
+          # Push to the same branch (main)
+          git push origin HEAD:main
